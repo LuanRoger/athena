@@ -5,12 +5,16 @@ export default function LoginForm() {
     <form>
       <fieldset className="fieldset">
         <legend className="fieldset-legend">E-mail</legend>
-        <input className="input h-12 w-full" type="email" placeholder="Email" />
+        <input
+          className="input input-lg w-full"
+          type="email"
+          placeholder="Email"
+        />
       </fieldset>
       <fieldset className="fieldset">
         <legend className="fieldset-legend">Senha</legend>
         <input
-          className="input h-12 w-full"
+          className="input input-lg w-full"
           type="password"
           placeholder="Senha"
         />
