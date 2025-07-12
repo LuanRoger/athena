@@ -75,7 +75,7 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  --color-yellow-jona: oklch(0.9645 0.0706 98.59)
+  --color-yellow-jona: oklch(0.9645 0.0706 98.59);
 }
 
 body {
