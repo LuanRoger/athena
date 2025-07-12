@@ -48,7 +48,7 @@ export default function RegisterForm() {
           {...register("email")}
         />
         {formErrors.email && (
-          <p className="label">{formErrors.email.message}</p>
+          <p className="label text-error">{formErrors.email.message}</p>
         )}
       </fieldset>
       <fieldset>
