@@ -1,12 +1,12 @@
-import { redirect } from "next/navigation";
-import { getUser } from "../actions/auth";
+import { getUser } from "@/app/actions/auth";
 import SignOutButton from "@/components/sign-out-button";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
   const currentUser = await getUser();
 
   if (!currentUser) {
-    redirect("/login");
+    redirect("/dashboard");
   }
 
   const { name, email } = currentUser;
