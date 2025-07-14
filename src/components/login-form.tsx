@@ -27,7 +27,7 @@ export default function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
       <fieldset className="fieldset">
         <legend className="fieldset-legend">E-mail</legend>
         <input

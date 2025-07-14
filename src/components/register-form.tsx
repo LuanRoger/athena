@@ -27,7 +27,10 @@ export default function RegisterForm() {
   }
 
   return (
-    <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="flex w-full flex-col gap-4"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <fieldset>
         <legend className="fieldset-legend">Nome de Usuário</legend>
         <input
