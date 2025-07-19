@@ -1,5 +1,5 @@
 import { pgTable, serial, text } from "drizzle-orm/pg-core";
-import { fileMetadata } from "./file-metadata";
+import { filesMetadata } from "./files-metadata";
 import { relations } from "drizzle-orm";
 
 export const favorites = pgTable("favorites", {
@@ -10,8 +10,8 @@ export const favorites = pgTable("favorites", {
 });
 
 export const favoritesRelations = relations(favorites, ({ one }) => ({
-  fileMetadata: one(fileMetadata, {
+  fileMetadata: one(filesMetadata, {
     fields: [favorites.fileMetadataId],
-    references: [fileMetadata.id],
+    references: [filesMetadata.id],
   }),
 }));

@@ -1,12 +1,12 @@
 import { integer, pgTable, serial, text } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { uploads } from "./upload";
-import { tags } from "./tag";
+import { uploads } from "./uploads";
+import { tags } from "./tags";
 import { user } from "./auth-schema";
 import { favorites } from "./favorites";
 import { timestamps } from "../schema-helpers";
 
-export const fileMetadata = pgTable("file_metadata", {
+export const filesMetadata = pgTable("files_metadata", {
   id: serial("id").primaryKey(),
   fileName: text("file_name").notNull(),
   fileSize: text("file_size").notNull(),
@@ -18,16 +18,16 @@ export const fileMetadata = pgTable("file_metadata", {
 });
 
 export const fileMetadataRelations = relations(
-  fileMetadata,
+  filesMetadata,
   ({ one, many }) => ({
     upload: one(uploads, {
-      fields: [fileMetadata.uploadId],
+      fields: [filesMetadata.uploadId],
       references: [uploads.id],
     }),
     favorites: many(favorites),
     tags: many(tags),
     createdByUser: one(user, {
-      fields: [fileMetadata.createdBy],
+      fields: [filesMetadata.createdBy],
       references: [user.id],
     }),
   }),

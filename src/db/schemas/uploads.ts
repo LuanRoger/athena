@@ -1,4 +1,4 @@
-import { pgTable, serial, text } from "drizzle-orm/pg-core";
+import { integer, pgTable, serial, text } from "drizzle-orm/pg-core";
 import { timestamps } from "../schema-helpers";
 
 export const uploads = pgTable("uploads", {
@@ -7,6 +7,6 @@ export const uploads = pgTable("uploads", {
   downloadUrl: text("download_url").notNull(),
   mimeType: text("mime_type").notNull(),
   fileName: text("file_name").notNull(),
-  fileSize: text("file_size").notNull(),
+  fileSize: integer("file_size").notNull(),
   ...timestamps,
 });
