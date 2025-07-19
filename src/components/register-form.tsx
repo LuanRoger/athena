@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signUp } from "@/app/actions/auth";
 import { useState } from "react";
 import LoadingSpinIcon from "./icons/loading-spin-icon";
+import { showToastByActionResult } from "@/utils/toast";
 
 export default function RegisterForm() {
   const {
@@ -22,7 +23,10 @@ export default function RegisterForm() {
     const { username, email, password } = data;
 
     setIsLoading(true);
-    await signUp(username, email, password);
+
+    const result = await signUp(username, email, password);
+    showToastByActionResult(result, false);
+
     setIsLoading(false);
   }
 

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import LoadingSpinIcon from "./icons/loading-spin-icon";
+import { showToastByActionResult } from "@/utils/toast";
 
 export default function LoginForm() {
   const {
@@ -22,7 +23,10 @@ export default function LoginForm() {
     const { email, password } = data;
 
     setIsLoading(true);
-    await signIn(email, password);
+
+    const result = await signIn(email, password);
+    showToastByActionResult(result, false, true);
+
     setIsLoading(false);
   }
 
