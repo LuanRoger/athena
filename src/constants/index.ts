@@ -2,6 +2,8 @@ export const ActionsMessage = {
   SIGN_UP_FAILED: "Falha ao criar conta.",
   SIGN_IN_FAILED:
     "Falha ao entrar. Verifique suas credenciais e tente novamente.",
+
+  GENERIC_ERROR: "Ocorreu um erro inesperado. Tente novamente mais tarde.",
 };
 
 export const DatabaseOperationsMessage = {
