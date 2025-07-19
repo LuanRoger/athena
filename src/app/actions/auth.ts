@@ -1,19 +1,38 @@
 "use server";
 
+import { ActionsMessage } from "@/constants";
+import { EmptyResult } from "@/models";
 import { auth } from "@/utils/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function signIn(email: string, password: string) {
-  const result = await auth.api.signInEmail({
-    body: {
-      email,
-      password,
-    },
-  });
+export async function signIn(
+  email: string,
+  password: string,
+): Promise<EmptyResult> {
+  let result;
+  try {
+    result = await auth.api.signInEmail({
+      body: {
+        email,
+        password,
+      },
+    });
+  } catch (error) {
+    return {
+      success: false,
+      data: null,
+      error:
+        error instanceof Error ? error.message : ActionsMessage.SIGN_IN_FAILED,
+    };
+  }
 
   if (!result.token) {
-    throw Error("Failed to sign in");
+    return {
+      success: false,
+      data: null,
+      error: ActionsMessage.SIGN_IN_FAILED,
+    };
   }
 
   redirect("/dashboard");
@@ -23,7 +42,7 @@ export async function signUp(
   username: string,
   email: string,
   password: string,
-) {
+): Promise<EmptyResult> {
   const result = await auth.api.signUpEmail({
     body: {
       email,
@@ -33,7 +52,11 @@ export async function signUp(
   });
 
   if (!result.token) {
-    throw Error("Failed to sign up");
+    return {
+      success: false,
+      data: null,
+      error: ActionsMessage.SIGN_UP_FAILED,
+    };
   }
 
   redirect("/dashboard");
