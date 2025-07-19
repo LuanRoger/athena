@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 import { index, pgTable, serial, text } from "drizzle-orm/pg-core";
-import { filesMetadata } from "./files-metadata";
+import { filesMetadataToTags } from "./files-metadata-to-tags";
 
 export const tags = pgTable(
   "tags",
@@ -13,5 +13,5 @@ export const tags = pgTable(
 );
 
 export const tagRelations = relations(tags, ({ many }) => ({
-  fileMetadataTags: many(filesMetadata),
+  fileMetadataTags: many(filesMetadataToTags),
 }));

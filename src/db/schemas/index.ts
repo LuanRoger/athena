@@ -3,6 +3,7 @@ import * as favoritesSchema from "./favorites";
 import * as filesMetadataSchema from "./files-metadata";
 import * as tagsSchema from "./tags";
 import * as uploadsSchema from "./uploads";
+import * as filesMetadataToTagsSchema from "./files-metadata-to-tags";
 
 export const schemas = {
   ...authSchemas,
@@ -10,4 +11,5 @@ export const schemas = {
   ...filesMetadataSchema,
   ...tagsSchema,
   ...uploadsSchema,
+  ...filesMetadataToTagsSchema,
 };

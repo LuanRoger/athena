@@ -1,10 +1,10 @@
 import { index, integer, pgTable, serial, text } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { uploads } from "./uploads";
-import { tags } from "./tags";
 import { user } from "./auth-schema";
 import { favorites } from "./favorites";
 import { timestamps } from "../schema-helpers";
+import { filesMetadataToTags } from "./files-metadata-to-tags";
 
 export const filesMetadata = pgTable(
   "files_metadata",
@@ -28,7 +28,7 @@ export const fileMetadataRelations = relations(
       references: [uploads.id],
     }),
     favorites: many(favorites),
-    tags: many(tags),
+    tags: many(filesMetadataToTags),
     createdByUser: one(user, {
       fields: [filesMetadata.createdBy],
       references: [user.id],
