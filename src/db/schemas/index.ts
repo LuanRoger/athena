@@ -1,13 +1,13 @@
 import * as authSchemas from "./auth-schema";
-import { favorites } from "./favorites";
-import { filesMetadata } from "./files-metadata";
-import { tags } from "./tags";
-import { uploads } from "./uploads";
+import * as favoritesSchema from "./favorites";
+import * as filesMetadataSchema from "./files-metadata";
+import * as tagsSchema from "./tags";
+import * as uploadsSchema from "./uploads";
 
 export const schemas = {
   ...authSchemas,
-  ...favorites,
-  ...filesMetadata,
-  ...tags,
-  ...uploads,
+  ...favoritesSchema,
+  ...filesMetadataSchema,
+  ...tagsSchema,
+  ...uploadsSchema,
 };
