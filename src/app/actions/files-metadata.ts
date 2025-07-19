@@ -9,8 +9,26 @@ import {
 import { getUser } from "./auth";
 import { UnauthorizedActionResult } from "@/models/common-action-results";
 import { CreateFileMetadata } from "@/models/db-operations";
-import { createFileMetadata } from "@/db/operations";
-import { EmptyResult } from "@/models";
+import * as DatabaseOperations from "@/db/operations";
+import { ActionResult, EmptyResult } from "@/models";
+
+type GetUserFilesResult = Awaited<
+  ReturnType<typeof DatabaseOperations.getUserFiles>
+> | null;
+export async function getUserFiles(): Promise<
+  ActionResult<GetUserFilesResult>
+> {
+  const user = await getUser();
+  if (!user) {
+    return UnauthorizedActionResult;
+  }
+
+  const userFiles = await DatabaseOperations.getUserFiles(user.id);
+  return {
+    success: true,
+    data: userFiles,
+  };
+}
 
 export async function createFileMetadataFromForm(
   _: unknown,
@@ -46,7 +64,7 @@ export async function createFileMetadataFromForm(
     createdBy: user.id,
   };
   try {
-    await createFileMetadata(fileMetadata);
+    await DatabaseOperations.createFileMetadata(fileMetadata);
     return {
       success: true,
       data: null,
