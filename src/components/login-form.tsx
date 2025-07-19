@@ -31,7 +31,7 @@ export default function LoginForm() {
       <fieldset className="fieldset">
         <legend className="fieldset-legend">E-mail</legend>
         <input
-          className="input input-lg w-full"
+          className="input w-full"
           type="email"
           placeholder="Email"
           {...register("email")}
@@ -43,7 +43,7 @@ export default function LoginForm() {
       <fieldset className="fieldset">
         <legend className="fieldset-legend">Senha</legend>
         <input
-          className="input input-lg w-full"
+          className="input w-full"
           type="password"
           placeholder="Senha"
           {...register("password")}
@@ -54,7 +54,7 @@ export default function LoginForm() {
       </fieldset>
       <div className="flex flex-col justify-end gap-2">
         <Link href="forgot-password" className="self-end underline">
-          <span>Esqueceu senha</span>
+          Esqueceu senha
         </Link>
         <button className="btn btn-primary" type="submit" disabled={isLoading}>
           {isLoading ? <LoadingSpinIcon /> : `Entrar`}

@@ -31,10 +31,10 @@ export default function RegisterForm() {
       className="flex w-full flex-col gap-4"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <fieldset>
+      <fieldset className="fieldset">
         <legend className="fieldset-legend">Nome de Usuário</legend>
         <input
-          className="input input-lg w-full"
+          className="input w-full"
           placeholder="Digite seu nome de usuário"
           {...register("username")}
         />
@@ -42,10 +42,10 @@ export default function RegisterForm() {
           <p className="label">{formErrors.username.message}</p>
         )}
       </fieldset>
-      <fieldset>
+      <fieldset className="fieldset">
         <legend className="fieldset-legend">E-mails</legend>
         <input
-          className="input input-lg w-full"
+          className="input w-full"
           placeholder="E-mail"
           type="email"
           {...register("email")}
@@ -54,10 +54,10 @@ export default function RegisterForm() {
           <p className="label text-error">{formErrors.email.message}</p>
         )}
       </fieldset>
-      <fieldset>
+      <fieldset className="fieldset">
         <legend className="fieldset-legend">Senha</legend>
         <input
-          className="input input-lg w-full"
+          className="input w-full"
           placeholder="Senha"
           type="password"
           {...register("password")}
