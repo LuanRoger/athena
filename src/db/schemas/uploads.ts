@@ -5,8 +5,6 @@ export const uploads = pgTable(
   "uploads",
   {
     id: serial("id").primaryKey(),
-    previewUrl: text("preview_url"),
-    downloadUrl: text("download_url").notNull(),
     mimeType: text("mime_type").notNull(),
     fileName: text("file_name").notNull(),
     fileSize: integer("file_size").notNull(),

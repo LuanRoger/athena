@@ -1,7 +1,5 @@
 export interface CreateUpload {
-  downloadUrl: string;
-  previewUrl?: string;
-  mimeType: string;
   fileName: string;
+  mimeType: string;
   fileSize: number;
 }
