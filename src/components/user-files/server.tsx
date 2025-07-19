@@ -3,7 +3,6 @@ import UserFileItems from "./user-file-item";
 
 export default async function UserFilesServer() {
   const { success, data } = await getUserFiles();
-  await new Promise((resolve) => setTimeout(resolve, 2000));
   if (!success || !data) {
     return (
       <div className="text-error-content text-center">Ocorreu um erro.</div>

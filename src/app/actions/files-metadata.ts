@@ -11,6 +11,7 @@ import { UnauthorizedActionResult } from "@/models/common-action-results";
 import { CreateFileMetadata } from "@/models/db-operations";
 import * as DatabaseOperations from "@/db/operations";
 import { ActionResult, EmptyResult } from "@/models";
+import { revalidatePath } from "next/cache";
 
 type GetUserFilesResult = Awaited<
   ReturnType<typeof DatabaseOperations.getUserFiles>
@@ -63,13 +64,16 @@ export async function createFileMetadataFromForm(
     uploadId,
     createdBy: user.id,
   };
+
   try {
     await DatabaseOperations.createFileMetadata(fileMetadata);
-    return {
-      success: true,
-      data: null,
-    };
   } catch (error) {
     return createActionResultFromError(error);
   }
+
+  revalidatePath("/dashboard");
+  return {
+    success: true,
+    data: null,
+  };
 }
