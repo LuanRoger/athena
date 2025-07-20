@@ -1,16 +1,14 @@
+import { FileMetadata, Tag } from "@/models";
 import { formatDate } from "@/utils/format";
+import TagBadge from "../tag-badge";
 
 interface UserFileItemProps {
-  title: string;
-  author: string;
-  createdAt: Date;
+  data: FileMetadata;
+  tags: Tag[];
 }
 
-export default function UserFileItems({
-  title,
-  author,
-  createdAt,
-}: UserFileItemProps) {
+export default function UserFileItems({ data, tags }: UserFileItemProps) {
+  const { title, author, createdAt } = data;
   const formattedDate = formatDate(createdAt);
 
   return (
@@ -19,6 +17,11 @@ export default function UserFileItems({
         <h2 className="card-title">{title}</h2>
         <p>Autor: {author}</p>
         <p>Criado em: {formattedDate}</p>
+        <div className="card-actions">
+          {tags.map((tag) => (
+            <TagBadge key={`user-file-item-tag-${tag.id}`} data={tag} />
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -7,6 +7,14 @@ import { filesMetadataToTags } from "../schemas/files-metadata-to-tags";
 export async function getUserFiles(userId: string) {
   const result = await db.query.filesMetadata.findMany({
     where: (filesMetadata, { eq }) => eq(filesMetadata.createdBy, userId),
+    with: {
+      tags: {
+        columns: {},
+        with: {
+          tag: true,
+        },
+      },
+    },
   });
 
   return result;
