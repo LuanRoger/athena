@@ -1,25 +1,17 @@
 "use client";
 
 import SubmitButton from "./submit-button";
-import { useActionState, useMemo } from "react";
+import { useMemo, useOptimistic, useState, useTransition } from "react";
 import { showToastByActionResult } from "@/utils/toast";
 import { useDropzone } from "react-dropzone";
 import { FileIcon } from "lucide-react";
 import { MAX_FILE_SIZE } from "@/constants";
 import { createFileMetadataFromForm } from "@/app/actions/files-metadata";
+import TagsInput from "./tags-input";
+import { createIfNotExist } from "@/app/actions/tags";
+import { Tag } from "@/models";
 
 export default function NewFileForm() {
-  async function uploadActions(prevState: unknown, formData: FormData) {
-    const result = await createFileMetadataFromForm(prevState, formData);
-    showToastByActionResult(result, true);
-
-    return result;
-  }
-
-  const [, formAction] = useActionState(uploadActions, {
-    success: false,
-    data: null,
-  });
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     accept: {
       "text/*": [".txt", ".md", ".csv", ".pdf"],
@@ -28,9 +20,44 @@ export default function NewFileForm() {
     maxSize: MAX_FILE_SIZE,
   });
   const currentFile = useMemo(() => acceptedFiles[0], [acceptedFiles]);
+  const [, startAction] = useTransition();
+  const [tags, addTags] = useState<Tag[]>([]);
+  const [optimisticTags, addOptimisticTags] = useOptimistic<Tag[], string>(
+    tags,
+    (state, newTag) => [
+      ...state,
+      {
+        id: -1,
+        name: newTag,
+        slug: "optimistic-temp-slug",
+      },
+    ],
+  );
+
+  async function uploadActions(formData: FormData) {
+    const tagsId = tags.map((tag) => tag.id);
+    const result = await createFileMetadataFromForm(formData, tagsId);
+    showToastByActionResult(result, true);
+  }
+
+  async function handleAddTag(tag: string) {
+    if (!tag) return;
+
+    addOptimisticTags(tag);
+
+    const newTagResult = await createIfNotExist(tag);
+    showToastByActionResult(newTagResult, false, true);
+
+    const { success, data } = newTagResult;
+    if (!success || !data) {
+      return;
+    }
+
+    addTags((prev) => [...prev, data]);
+  }
 
   return (
-    <form className="flex flex-col gap-2" action={formAction}>
+    <form className="flex flex-col gap-2" action={uploadActions}>
       <fieldset className="fieldset">
         <div
           {...getRootProps()}
@@ -49,11 +76,16 @@ export default function NewFileForm() {
           </div>
         </div>
 
-        <label className="label">Titulo</label>
+        <label className="fieldset-label">Titulo</label>
         <input type="text" name="title" className="input" />
 
-        <label className="label">Autor</label>
+        <label className="fieldset-label">Autor</label>
         <input type="text" name="author" className="input" />
+
+        <TagsInput
+          tags={optimisticTags}
+          onAddTag={(tag) => startAction(() => handleAddTag(tag))}
+        />
       </fieldset>
       <SubmitButton>Enviar</SubmitButton>
     </form>

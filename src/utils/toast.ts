@@ -21,7 +21,7 @@ export function showToastByActionResult(
 ) {
   if (result.success && showSuccess) {
     toast.success(result.successMessage ?? AppMessages.GENERIC_TOAST_SUCCESS);
-  } else if (showError) {
+  } else if (!result.success && showError) {
     toast.error(result.error ?? AppMessages.GENERIC_TOAST_ERROR);
   }
 }
