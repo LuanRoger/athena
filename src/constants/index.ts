@@ -5,6 +5,8 @@ export const ActionsMessage = {
   SIGN_IN_FAILED:
     "Falha ao entrar. Verifique suas credenciais e tente novamente.",
 
+  TAG_CREATED_SUCCESS: "Tag criada com sucesso.",
+
   GENERIC_ERROR: "Ocorreu um erro inesperado. Tente novamente mais tarde.",
 
   REQUIRED_FILE: "Arquivo é obrigatório.",

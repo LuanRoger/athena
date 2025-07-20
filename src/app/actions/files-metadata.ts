@@ -32,8 +32,8 @@ export async function getUserFiles(): Promise<
 }
 
 export async function createFileMetadataFromForm(
-  _: unknown,
   formData: FormData,
+  tagsId: number[],
 ): Promise<EmptyResult> {
   const user = await getUser();
   if (!user) {
@@ -63,6 +63,7 @@ export async function createFileMetadataFromForm(
     author,
     uploadId,
     createdBy: user.id,
+    tags: tagsId,
   };
 
   try {
