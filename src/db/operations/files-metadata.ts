@@ -3,6 +3,9 @@ import { CreateFileMetadata } from "@/models/db-operations";
 import { NoEntityInsertedError } from "@/models/errors";
 import { filesMetadata } from "../schemas/files-metadata";
 import { filesMetadataToTags } from "../schemas/files-metadata-to-tags";
+import { eq } from "drizzle-orm";
+import { favorites } from "../schemas/favorites";
+import { uploads } from "../schemas/uploads";
 
 export async function getUserFiles(userId: string) {
   const result = await db.query.filesMetadata.findMany({
@@ -23,6 +26,9 @@ export async function getUserFiles(userId: string) {
 export async function getFileById(fileId: number) {
   const result = await db.query.filesMetadata.findFirst({
     where: (filesMetadata, { eq }) => eq(filesMetadata.id, fileId),
+    with: {
+      upload: true,
+    },
   });
 
   if (!result) {
@@ -56,6 +62,34 @@ export async function createFileMetadata(model: CreateFileMetadata) {
     await tx.insert(filesMetadataToTags).values(tagInsertions);
 
     return insertedFileMetadata;
+  });
+
+  return result;
+}
+
+export async function deleteFileMetadata(id: number) {
+  const result = await db.transaction(async (tx) => {
+    const deletedFileMetadataResult = await tx
+      .delete(filesMetadata)
+      .where(eq(filesMetadata.id, id))
+      .returning();
+
+    if (deletedFileMetadataResult.length === 0) {
+      throw new NoEntityInsertedError();
+    }
+    const deletedFileMetadata = deletedFileMetadataResult[0];
+
+    await tx
+      .delete(filesMetadataToTags)
+      .where(eq(filesMetadataToTags.fileMetadataId, id));
+
+    await tx.delete(favorites).where(eq(favorites.fileMetadataId, id));
+
+    await tx
+      .delete(uploads)
+      .where(eq(uploads.id, deletedFileMetadata.uploadId));
+
+    return deletedFileMetadata;
   });
 
   return result;

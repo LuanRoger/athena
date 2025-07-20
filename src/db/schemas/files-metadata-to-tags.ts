@@ -4,6 +4,7 @@ import { filesMetadata } from "./files-metadata";
 import { tags } from "./tags";
 
 export const filesMetadataToTags = pgTable("files_metadata_to_tags", {
+  id: serial("id").primaryKey(),
   fileMetadataId: serial("file_metadata_id").notNull(),
   tagId: serial("tag_id").notNull(),
 });

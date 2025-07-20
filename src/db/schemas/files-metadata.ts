@@ -12,7 +12,9 @@ export const filesMetadata = pgTable(
     id: serial("id").primaryKey(),
     title: text("title").notNull(),
     author: text("author").notNull(),
-    uploadId: serial("upload_id").notNull(),
+    uploadId: serial("upload_id")
+      .notNull()
+      .references(() => uploads.id, { onDelete: "cascade" }),
     favoritesCount: integer("favorites_count").default(0).notNull(),
     createdBy: text("created_by").notNull(),
     ...timestamps,
