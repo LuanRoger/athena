@@ -1,12 +1,8 @@
-"use client";
-
 import { FileMetadata, Tag } from "@/models";
 import { formatDate } from "@/utils/format";
 import TagBadge from "../tag-badge";
-import { deleteFileMetadata } from "@/app/actions/files-metadata";
-import { Trash2Icon } from "lucide-react";
-import { useTransition } from "react";
-import { showToastByActionResult } from "@/utils/toast";
+import DeleteFileMetadataButton from "../delete-file-metadata-button";
+import PreviewFileButton from "../preview-file-button";
 
 interface UserFileItemProps {
   data: FileMetadata;
@@ -16,14 +12,6 @@ interface UserFileItemProps {
 export default function UserFileItems({ data, tags }: UserFileItemProps) {
   const { id, title, author, createdAt } = data;
   const formattedDate = formatDate(createdAt);
-  const [isPending, startAction] = useTransition();
-
-  function handleDelete() {
-    startAction(async () => {
-      const result = await deleteFileMetadata(id);
-      showToastByActionResult(result);
-    });
-  }
 
   return (
     <div className="card bg-base-100 shadow-md">
@@ -31,18 +19,15 @@ export default function UserFileItems({ data, tags }: UserFileItemProps) {
         <h2 className="card-title">{title}</h2>
         <p>Autor: {author}</p>
         <p>Criado em: {formattedDate}</p>
-        <div className="card-actions">
+        <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
             <TagBadge key={`user-file-item-tag-${tag.id}`} data={tag} />
           ))}
         </div>
-        <button
-          className="btn btn-error btn-circle self-end"
-          onClick={handleDelete}
-          disabled={isPending}
-        >
-          <Trash2Icon className="stroke-error-content" />
-        </button>
+        <div className="card-actions justify-end">
+          <PreviewFileButton id={id} />
+          <DeleteFileMetadataButton id={id} />
+        </div>
       </div>
     </div>
   );
