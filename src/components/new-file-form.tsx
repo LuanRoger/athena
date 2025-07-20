@@ -21,7 +21,7 @@ export default function NewFileForm() {
   });
   const currentFile = useMemo(() => acceptedFiles[0], [acceptedFiles]);
   const [, startAction] = useTransition();
-  const [tags, addTags] = useState<Tag[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
   const [optimisticTags, addOptimisticTags] = useOptimistic<Tag[], string>(
     tags,
     (state, newTag) => [
@@ -38,6 +38,7 @@ export default function NewFileForm() {
     const tagsId = tags.map((tag) => tag.id);
     const result = await createFileMetadataFromForm(formData, tagsId);
     showToastByActionResult(result, true);
+    setTags([]);
   }
 
   async function handleAddTag(tag: string) {
@@ -53,7 +54,7 @@ export default function NewFileForm() {
       return;
     }
 
-    addTags((prev) => [...prev, data]);
+    setTags((prev) => [...prev, data]);
   }
 
   return (
