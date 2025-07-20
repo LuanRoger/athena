@@ -7,6 +7,9 @@ export const ActionsMessage = {
 
   TAG_CREATED_SUCCESS: "Tag criada com sucesso.",
 
+  FILE_METADATA_NOT_FOUND: "Metadados do arquivo não encontrados.",
+  FILE_METADATA_DELETED_SUCCESS: "Metadados do arquivo excluídos com sucesso.",
+
   GENERIC_ERROR: "Ocorreu um erro inesperado. Tente novamente mais tarde.",
 
   REQUIRED_FILE: "Arquivo é obrigatório.",

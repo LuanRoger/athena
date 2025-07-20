@@ -1,7 +1,7 @@
 "use server";
 
 import { ActionsMessage } from "@/constants";
-import { uploadFile } from "./storage";
+import { deleteFile, uploadFile } from "./storage";
 import {
   createActionResultFromError,
   passThroughActionResultError,
@@ -76,5 +76,41 @@ export async function createFileMetadataFromForm(
   return {
     success: true,
     data: null,
+  };
+}
+
+export async function deleteFileMetadata(fileId: number): Promise<EmptyResult> {
+  const user = await getUser();
+  if (!user) {
+    return UnauthorizedActionResult;
+  }
+
+  const fileMetadata = await DatabaseOperations.getFileById(fileId);
+  if (!fileMetadata) {
+    return {
+      success: false,
+      error: ActionsMessage.FILE_METADATA_NOT_FOUND,
+      data: null,
+    };
+  }
+
+  try {
+    const fileUploadName = fileMetadata.upload.fileName;
+    await deleteFile(fileUploadName);
+  } catch (error) {
+    return createActionResultFromError(error);
+  }
+
+  try {
+    await DatabaseOperations.deleteFileMetadata(fileId);
+  } catch (error) {
+    return createActionResultFromError(error);
+  }
+
+  revalidatePath("/dashboard");
+  return {
+    success: true,
+    data: null,
+    successMessage: ActionsMessage.FILE_METADATA_DELETED_SUCCESS,
   };
 }

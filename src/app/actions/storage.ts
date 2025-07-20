@@ -2,7 +2,7 @@
 
 import { DEFAULT_BUCKET_NAME } from "@/constants";
 import { createUpload } from "@/app/actions/uploads";
-import { ActionResult } from "@/models";
+import { ActionResult, EmptyResult } from "@/models";
 import { CreateUpload } from "@/models/db-operations";
 import { minioClient } from "@/services/storage";
 import { createActionResultFromError } from "@/utils/error";
@@ -73,6 +73,21 @@ export async function uploadFile(
   return {
     success: true,
     data: uploadResult,
+  };
+}
+
+export async function deleteFile(fileName: string): Promise<EmptyResult> {
+  const bucketName = DEFAULT_BUCKET_NAME;
+
+  try {
+    await minioClient.removeObject(bucketName, fileName);
+  } catch (error) {
+    return createActionResultFromError(error);
+  }
+
+  return {
+    success: true,
+    data: null,
   };
 }
 
