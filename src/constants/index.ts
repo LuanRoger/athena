@@ -9,6 +9,8 @@ export const ActionsMessage = {
 
   FILE_METADATA_NOT_FOUND: "Metadados do arquivo não encontrados.",
   FILE_METADATA_DELETED_SUCCESS: "Metadados do arquivo excluídos com sucesso.",
+  FILE_METADATA_PREVIEW_URL_NOT_FOUND:
+    "URL de pré-visualização dos metadados do arquivo não encontrados.",
 
   GENERIC_ERROR: "Ocorreu um erro inesperado. Tente novamente mais tarde.",
 
@@ -28,3 +30,5 @@ export const AppMessages = {
 export const DEFAULT_BUCKET_NAME = "athena-articles";
 
 export const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+
+export const ONE_HOUR_IN_SECONDS = 60 * 60;

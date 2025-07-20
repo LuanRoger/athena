@@ -1,7 +1,7 @@
 "use server";
 
 import { ActionsMessage } from "@/constants";
-import { deleteFile, uploadFile } from "./storage";
+import { deleteFile, getFileUrl, uploadFile } from "./storage";
 import {
   createActionResultFromError,
   passThroughActionResultError,
@@ -28,6 +28,38 @@ export async function getUserFiles(): Promise<
   return {
     success: true,
     data: userFiles,
+  };
+}
+
+export async function getFileMetadataPreviewUrl(
+  fileId: number,
+): Promise<ActionResult<string | null>> {
+  const user = await getUser();
+  if (!user) {
+    return UnauthorizedActionResult;
+  }
+
+  const fileMetadata = await DatabaseOperations.getFileById(fileId);
+  if (!fileMetadata) {
+    return {
+      success: false,
+      error: ActionsMessage.FILE_METADATA_NOT_FOUND,
+      data: null,
+    };
+  }
+  const fileUploadName = fileMetadata.upload.fileName;
+  const fileUrlResult = await getFileUrl(fileUploadName);
+  if (!fileUrlResult.success) {
+    return {
+      success: false,
+      error: ActionsMessage.FILE_METADATA_PREVIEW_URL_NOT_FOUND,
+      data: null,
+    };
+  }
+
+  return {
+    success: true,
+    data: fileUrlResult.data,
   };
 }
 

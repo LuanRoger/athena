@@ -1,11 +1,30 @@
 "use server";
 
-import { DEFAULT_BUCKET_NAME } from "@/constants";
+import { DEFAULT_BUCKET_NAME, ONE_HOUR_IN_SECONDS } from "@/constants";
 import { createUpload } from "@/app/actions/uploads";
 import { ActionResult, EmptyResult } from "@/models";
 import { CreateUpload } from "@/models/db-operations";
 import { minioClient } from "@/services/storage";
 import { createActionResultFromError } from "@/utils/error";
+
+export async function getFileUrl(
+  fileName: string,
+): Promise<ActionResult<string>> {
+  try {
+    const result = await minioClient.presignedGetObject(
+      DEFAULT_BUCKET_NAME,
+      fileName,
+      ONE_HOUR_IN_SECONDS,
+    );
+
+    return {
+      success: true,
+      data: result,
+    };
+  } catch (error) {
+    return createActionResultFromError<string>(error);
+  }
+}
 
 type UploadFileResult = Awaited<ReturnType<typeof createUpload>>;
 interface FileUploadReslt {
@@ -13,7 +32,6 @@ interface FileUploadReslt {
   fileSize: number;
   mimeType: string;
 }
-
 export async function uploadFile(
   file: File,
   storeInUploads?: true,
@@ -26,7 +44,6 @@ export async function uploadFile(
   file: File,
   storeInUploads = true,
 ): Promise<ActionResult<FileUploadReslt | UploadFileResult>> {
-  const bucketName = DEFAULT_BUCKET_NAME;
   await createBucketIfNotExists();
 
   const fileName = `${Date.now()}-${file.name}`;
@@ -44,7 +61,7 @@ export async function uploadFile(
 
   try {
     await minioClient.putObject(
-      bucketName,
+      DEFAULT_BUCKET_NAME,
       fileName,
       buffer,
       buffer.length,
@@ -77,10 +94,8 @@ export async function uploadFile(
 }
 
 export async function deleteFile(fileName: string): Promise<EmptyResult> {
-  const bucketName = DEFAULT_BUCKET_NAME;
-
   try {
-    await minioClient.removeObject(bucketName, fileName);
+    await minioClient.removeObject(DEFAULT_BUCKET_NAME, fileName);
   } catch (error) {
     return createActionResultFromError(error);
   }
