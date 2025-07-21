@@ -5,6 +5,9 @@ export const ActionsMessage = {
   SIGN_IN_FAILED:
     "Falha ao entrar. Verifique suas credenciais e tente novamente.",
 
+  FAVORITE_ADDED_SUCCESS: "Arquivo adicionado aos favoritos.",
+  FAVORITE_REMOVED_SUCCESS: "Arquivo removido dos favoritos.",
+
   TAG_CREATED_SUCCESS: "Tag criada com sucesso.",
 
   FILE_METADATA_NOT_FOUND: "Metadados do arquivo não encontrados.",

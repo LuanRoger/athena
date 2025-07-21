@@ -1,5 +1,5 @@
 import { getUserFiles } from "@/app/actions/files-metadata";
-import UserFileItems from "./user-file-item";
+import FilesList from "../files-list";
 
 export default async function UserFilesServer() {
   const { success, data } = await getUserFiles();
@@ -9,15 +9,9 @@ export default async function UserFilesServer() {
     );
   }
 
-  return (
-    <div className="flex w-full flex-col gap-4">
-      {data.map((file) => (
-        <UserFileItems
-          key={`user-files-item-${file.id}`}
-          data={file}
-          tags={file.tags.flatMap((tag) => tag.tag)}
-        />
-      ))}
-    </div>
-  );
+  const files = data!.map((file) => ({
+    file,
+    tags: file.tags.flatMap((tag) => tag.tag),
+  }));
+  return <FilesList files={files} />;
 }
