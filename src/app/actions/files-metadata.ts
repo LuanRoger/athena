@@ -31,6 +31,22 @@ export async function getUserFiles(): Promise<
   };
 }
 
+export async function getGeneralFiles() {
+  const user = await getUser();
+  if (!user) {
+    return UnauthorizedActionResult;
+  }
+
+  const dashboardFiles = await DatabaseOperations.getGeneralFiles(
+    user.id,
+    true,
+  );
+  return {
+    success: true,
+    data: dashboardFiles,
+  };
+}
+
 export async function getFileMetadataPreviewUrl(
   fileId: number,
 ): Promise<ActionResult<string | null>> {

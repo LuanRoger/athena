@@ -23,6 +23,70 @@ export async function getUserFiles(userId: string) {
   return result;
 }
 
+export async function getGeneralFiles(
+  userId: string,
+  hideUserFiles: boolean = true,
+) {
+  const result = await db.query.filesMetadata.findMany({
+    where: (filesMetadata, { eq, and }) => {
+      const conditions = [];
+      if (hideUserFiles) {
+        conditions.push(eq(filesMetadata.createdBy, userId));
+      }
+      return and(...conditions);
+    },
+    with: {
+      tags: {
+        columns: {},
+        with: {
+          tag: true,
+        },
+      },
+      createdByUser: true,
+    },
+  });
+
+  return result;
+}
+
+export async function getTagFiles(
+  tagId: number,
+  userId: string,
+  hideUserFiles: boolean = true,
+) {
+  const fileMetadataTagRelationResult =
+    await db.query.filesMetadataToTags.findMany({
+      where: (filesMetadataToTags, { eq }) =>
+        eq(filesMetadataToTags.tagId, tagId),
+      columns: {
+        fileMetadataId: true,
+      },
+    });
+  const fileIds = fileMetadataTagRelationResult.map(
+    (item) => item.fileMetadataId,
+  );
+
+  const filesMetadataResult = await db.query.filesMetadata.findMany({
+    where: (filesMetadata, { eq, and, inArray }) => {
+      const conditions = [inArray(filesMetadata.id, fileIds)];
+      if (hideUserFiles) {
+        conditions.push(eq(filesMetadata.createdBy, userId));
+      }
+      return and(...conditions);
+    },
+    with: {
+      tags: {
+        columns: {},
+        with: {
+          tag: true,
+        },
+      },
+    },
+  });
+
+  return filesMetadataResult;
+}
+
 export async function getFileById(fileId: number) {
   const result = await db.query.filesMetadata.findFirst({
     where: (filesMetadata, { eq }) => eq(filesMetadata.id, fileId),
