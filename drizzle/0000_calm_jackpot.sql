@@ -50,7 +50,8 @@ CREATE TABLE "favorites" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"file_metadata_id" serial NOT NULL,
 	"user_id" text NOT NULL,
-	"created_at" text NOT NULL
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "files_metadata_to_tags" (
