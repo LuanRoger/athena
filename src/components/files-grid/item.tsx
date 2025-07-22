@@ -1,22 +1,26 @@
 import { FileMetadata, Tag, User } from "@/models";
 import TagsList from "../tags-list";
+import FileFavoriteButton from "../file-favorite-button";
 
 interface FileGridItemProps {
   file: FileMetadata;
   tags: Tag[];
   createdBy: User;
+  isFavorited?: boolean;
 }
 
 export default function FileGridItem({
   file,
   tags,
   createdBy,
+  isFavorited = false,
 }: FileGridItemProps) {
   const sendDate = new Date(file.createdAt).toLocaleDateString();
 
   return (
     <div className="card bg-base-100 shadow-xl">
       <div className="card-body flex flex-col gap-2">
+        <FileFavoriteButton fileId={file.id} isFavorited={isFavorited} />
         <TagsList tags={tags} />
         <h3 className="card-title">{file.title}</h3>
         <p>{file.author}</p>
