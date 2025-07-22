@@ -1,6 +1,6 @@
 "use server";
 
-import { EmptyResult } from "@/models";
+import { ActionResult, EmptyResult } from "@/models";
 import { UnauthorizedActionResult } from "@/models/common-action-results";
 import { getUser } from "./auth";
 import * as DbOperations from "@/db/operations";
@@ -10,6 +10,23 @@ import {
 } from "@/models/db-operations/favorites";
 import { createActionResultFromError } from "@/utils/error";
 import { ActionsMessage } from "@/constants";
+import { revalidatePath } from "next/cache";
+
+export async function isFavoritedByUser(
+  fileId: number,
+): Promise<ActionResult<boolean | null>> {
+  const user = await getUser();
+  if (!user) {
+    return UnauthorizedActionResult;
+  }
+
+  const result = await DbOperations.isFavoritedByUser(fileId, user.id);
+
+  return {
+    success: true,
+    data: result,
+  };
+}
 
 export async function addToFavorites(fileId: number): Promise<EmptyResult> {
   const user = await getUser();
@@ -27,6 +44,7 @@ export async function addToFavorites(fileId: number): Promise<EmptyResult> {
     return createActionResultFromError(error);
   }
 
+  revalidatePath("/dashboard");
   return {
     success: true,
     data: null,
@@ -52,6 +70,7 @@ export async function removeFromFavorites(
     return createActionResultFromError(error);
   }
 
+  revalidatePath("/dashboard");
   return {
     success: true,
     data: null,

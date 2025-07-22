@@ -7,6 +7,17 @@ import { favorites } from "../schemas/favorites";
 import { filesMetadata } from "../schemas/files-metadata";
 import { and, eq, sql } from "drizzle-orm";
 
+export async function isFavoritedByUser(fileId: number, userId: string) {
+  const result = await db.query.favorites.findFirst({
+    where: and(
+      eq(favorites.fileMetadataId, fileId),
+      eq(favorites.userId, userId),
+    ),
+  });
+
+  return !!result;
+}
+
 export async function favoriteFile(model: CreateFavorite) {
   const result = db.transaction(async (tx) => {
     const { fileMetadataId, userId } = model;
