@@ -1,6 +1,7 @@
 import { getUser } from "@/app/actions/auth";
 import NewFileForm from "@/components/new-file-form";
 import SignOutButton from "@/components/sign-out-button";
+import UserFavorites from "@/components/user-favorites-files";
 import UserFiles from "@/components/user-files";
 import Link from "next/link";
 
@@ -18,6 +19,8 @@ export default async function Page() {
         <button className="btn btn-link">Ver de todos</button>
       </Link>
       <UserFiles />
+      <h2 className="text-lg font-semibold">Favoritos</h2>
+      <UserFavorites />
     </main>
   );
 }

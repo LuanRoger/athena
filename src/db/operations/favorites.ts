@@ -7,6 +7,33 @@ import { favorites } from "../schemas/favorites";
 import { filesMetadata } from "../schemas/files-metadata";
 import { and, eq, sql } from "drizzle-orm";
 
+export async function getFavoritesByUserId(userId: string) {
+  const result = await db.query.favorites.findMany({
+    where: eq(favorites.userId, userId),
+  });
+
+  return result;
+}
+
+export async function getFavoritedFilesByUserId(userId: string) {
+  const result = await db.query.favorites.findMany({
+    where: eq(favorites.userId, userId),
+    with: {
+      fileMetadata: {
+        with: {
+          tags: {
+            with: {
+              tag: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return result.map((fav) => fav.fileMetadata);
+}
+
 export async function isFavoritedByUser(fileId: number, userId: string) {
   const result = await db.query.favorites.findFirst({
     where: and(

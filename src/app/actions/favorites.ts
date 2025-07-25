@@ -12,6 +12,44 @@ import { createActionResultFromError } from "@/utils/error";
 import { ActionsMessage } from "@/constants";
 import { revalidatePath } from "next/cache";
 
+type GetFavoritesByUserIdResult = Awaited<
+  ReturnType<typeof DbOperations.getFavoritesByUserId>
+>;
+export async function getFavoritesByUserId(): Promise<
+  ActionResult<GetFavoritesByUserIdResult | null>
+> {
+  const user = await getUser();
+  if (!user) {
+    return UnauthorizedActionResult;
+  }
+
+  const result = await DbOperations.getFavoritesByUserId(user.id);
+
+  return {
+    success: true,
+    data: result,
+  };
+}
+
+type GetFavoritedFilesByUserIdResult = Awaited<
+  ReturnType<typeof DbOperations.getFavoritedFilesByUserId>
+>;
+export async function getFavoritedFilesByUserId(): Promise<
+  ActionResult<GetFavoritedFilesByUserIdResult | null>
+> {
+  const user = await getUser();
+  if (!user) {
+    return UnauthorizedActionResult;
+  }
+
+  const result = await DbOperations.getFavoritedFilesByUserId(user.id);
+
+  return {
+    success: true,
+    data: result,
+  };
+}
+
 export async function isFavoritedByUser(
   fileId: number,
 ): Promise<ActionResult<boolean | null>> {
