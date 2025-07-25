@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 import FilesListLoading from "../files-list/loading";
-import UserFilesServer from "./server";
+import { UserFavoritesServer } from "./server";
 
-export default function UserFiles() {
+export default function UserFavorites() {
   return (
     <Suspense fallback={<FilesListLoading />}>
-      <UserFilesServer />
+      <UserFavoritesServer />
     </Suspense>
   );
 }
