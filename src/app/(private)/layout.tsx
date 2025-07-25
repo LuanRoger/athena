@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { getSession } from "../actions/auth";
 import { redirect } from "next/navigation";
+import Header from "@/components/header/header";
 
 export default async function Layout({ children }: { children: ReactNode }) {
   const currentUser = await getSession();
@@ -9,5 +10,10 @@ export default async function Layout({ children }: { children: ReactNode }) {
     redirect("/login");
   }
 
-  return children;
+  return (
+    <div className="flex flex-col">
+      <Header />
+      {children}
+    </div>
+  );
 }
