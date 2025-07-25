@@ -4,7 +4,7 @@ import FilesList from "../files-list";
 export async function UserFavoritesServer() {
   const { data: favoritedFiles, success } = await getFavoritedFilesByUserId();
   if (!favoritedFiles || favoritedFiles.length === 0 || !success) {
-    return <div>No favorites found</div>;
+    return <p className="text-info-content">Nenhum favorito encontrado</p>;
   }
 
   const flattenFiles = favoritedFiles!.map((file) => {
