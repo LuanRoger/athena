@@ -4,6 +4,12 @@ import { NoEntityInsertedError } from "@/models/errors";
 import { tags } from "../schemas/tags";
 import { filesMetadataToTags } from "../schemas/files-metadata-to-tags";
 
+export async function getAllTags() {
+  const result = await db.query.tags.findMany();
+
+  return result;
+}
+
 export async function getTagsByFileMetadataId(fileMetadataId: number) {
   const result = await db.query.filesMetadataToTags.findMany({
     where: (filesMetadataToTags, { eq }) =>

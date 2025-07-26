@@ -31,7 +31,11 @@ export async function getUserFiles(): Promise<
   };
 }
 
-export async function getGeneralFiles() {
+export async function getGeneralFiles(
+  tags?: number,
+  titleTerm?: string,
+  authorTerm?: string,
+) {
   const user = await getUser();
   if (!user) {
     return UnauthorizedActionResult;
@@ -40,6 +44,9 @@ export async function getGeneralFiles() {
   const dashboardFiles = await DatabaseOperations.getGeneralFiles(
     user.id,
     true,
+    tags,
+    titleTerm,
+    authorTerm,
   );
   return {
     success: true,

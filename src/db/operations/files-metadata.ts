@@ -26,14 +26,28 @@ export async function getUserFiles(userId: string) {
 export async function getGeneralFiles(
   userId: string,
   hideUserFiles: boolean = true,
+  tag?: number,
+  titleTerm?: string,
+  authorTerm?: string,
 ) {
   const result = await db.query.filesMetadata.findMany({
-    where: (filesMetadata, { eq, and }) => {
-      const conditions = [];
+    where: (filesMetadata, { eq, and, like, or }) => {
+      const andCondition = [];
       if (hideUserFiles) {
-        conditions.push(eq(filesMetadata.createdBy, userId));
+        andCondition.push(eq(filesMetadata.createdBy, userId));
       }
-      return and(...conditions);
+      if (tag) {
+        andCondition.push(eq(filesMetadata.id, tag));
+      }
+
+      const searchConditions = [];
+      if (titleTerm) {
+        searchConditions.push(like(filesMetadata.title, `%${titleTerm}%`));
+      }
+      if (authorTerm) {
+        searchConditions.push(like(filesMetadata.author, `%${authorTerm}%`));
+      }
+      return and(...andCondition, or(...searchConditions));
     },
     with: {
       tags: {
