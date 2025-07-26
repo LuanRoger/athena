@@ -32,7 +32,7 @@ export async function getUserFiles(): Promise<
 }
 
 export async function getGeneralFiles(
-  tags?: number[],
+  tags?: number,
   titleTerm?: string,
   authorTerm?: string,
 ) {

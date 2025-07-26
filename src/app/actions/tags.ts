@@ -7,6 +7,18 @@ import { CreateTag } from "@/models/db-operations";
 import { createActionResultFromError } from "@/utils/error";
 import { slugify } from "@/utils/slug";
 
+type GetAllTagsResult = Awaited<
+  ReturnType<typeof DatabaseOperations.getAllTags>
+>;
+export async function getAllTags(): Promise<ActionResult<GetAllTagsResult>> {
+  const tags = await DatabaseOperations.getAllTags();
+
+  return {
+    success: true,
+    data: tags,
+  };
+}
+
 type CreateTagIfNotExistResult = Awaited<
   ReturnType<typeof DatabaseOperations.createTagIfNotExists>
 >;
