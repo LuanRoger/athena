@@ -10,7 +10,7 @@ export default async function Page() {
 
   const { name, email } = currentUser!;
   return (
-    <main className="flex flex-col items-start gap-4 p-4">
+    <main className="flex flex-col items-start gap-4 py-4">
       <h1>{name}</h1>
       <p>{email}</p>
       <SignOutButton />
