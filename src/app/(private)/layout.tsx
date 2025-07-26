@@ -13,7 +13,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="flex flex-col">
       <Header />
-      {children}
+      <div className="flex flex-col px-16">{children}</div>
     </div>
   );
 }
