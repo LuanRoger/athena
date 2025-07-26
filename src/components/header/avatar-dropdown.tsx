@@ -18,13 +18,7 @@ export default function AvatarDropdown() {
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 text-black shadow"
       >
         <li>
-          <a>Informações da conta</a>
-        </li>
-        <li>
           <a>Minhas contribuições</a>
-        </li>
-        <li>
-          <a>Tema</a>
         </li>
         <li>
           <a>Sair</a>

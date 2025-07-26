@@ -1,8 +1,9 @@
 import { AthenaIconLight } from "@/components/icons/athena-icon-light";
+
 export default function NavLinks() {
   return (
-    <>
-      <a className="link h-[50px] w-[50px]">
+    <div className="flex gap-20">
+      <a className="link mr-4 h-[50px] w-[50px] lg:mr-1">
         <AthenaIconLight />
       </a>
       <div className="ml-1 hidden lg:flex">
@@ -18,6 +19,6 @@ export default function NavLinks() {
           </li>
         </ul>
       </div>
-    </>
+    </div>
   );
 }
