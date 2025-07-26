@@ -2,8 +2,18 @@ import { getGeneralFiles } from "@/app/actions/files-metadata";
 import FilesGrid from "../files-grid";
 import { isFavoritedByUser } from "@/app/actions/favorites";
 
-export default async function GeneralFilesGridServer() {
-  const { success, data } = await getGeneralFiles();
+interface GeneralFilesGridServerProps {
+  tag?: number;
+  titleTerm?: string;
+  authorTerm?: string;
+}
+
+export default async function GeneralFilesGridServer({
+  tag,
+  titleTerm,
+  authorTerm,
+}: GeneralFilesGridServerProps) {
+  const { success, data } = await getGeneralFiles(tag, titleTerm, authorTerm);
   if (!success && !data) {
     return <p>Error loading files.</p>;
   }
