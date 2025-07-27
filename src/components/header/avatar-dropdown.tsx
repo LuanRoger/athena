@@ -1,3 +1,5 @@
+import SignOutButton from "../sign-out-button";
+
 export default function AvatarDropdown() {
   return (
     <div className="dropdown dropdown-end">
@@ -17,11 +19,16 @@ export default function AvatarDropdown() {
         tabIndex={0}
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 text-black shadow"
       >
-        <li>
-          <a>Minhas contribuições</a>
+        <li className="text-center">
+          <a className="block w-full py-3 text-center font-semibold">
+            Minhas Contribuições
+          </a>
+        </li>
+        <li className="text-center">
+          <a className="block w-full py-3 text-center font-semibold">Conta</a>
         </li>
         <li>
-          <a>Sair</a>
+          <SignOutButton />
         </li>
       </ul>
     </div>
