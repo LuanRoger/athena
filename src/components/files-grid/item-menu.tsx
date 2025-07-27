@@ -1,4 +1,4 @@
-import { EllipsisIcon, TrashIcon, EditIcon } from "lucide-react";
+import { EllipsisIcon, BookOpenIcon, TrashIcon, EditIcon } from "lucide-react";
 import PreviewFileButton from "../preview-file-button";
 import { getSession } from "@/app/actions/auth";
 
@@ -22,18 +22,22 @@ export default async function FileGridItemMenu({
       <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
         <PreviewFileButton id={fileId}>
           <li>
-            <p>Abrir</p>
+            <p>
+              <BookOpenIcon /> Abrir
+            </p>
           </li>
         </PreviewFileButton>
         {isOwner && (
           <>
             <li>
               <button className="flex w-full items-center gap-2">
+                <EditIcon />
                 <p>Editar</p>
               </button>
             </li>
             <li>
               <button className="text-error flex w-full items-center gap-2">
+                <TrashIcon />
                 <p>Apagar</p>
               </button>
             </li>

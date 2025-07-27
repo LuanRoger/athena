@@ -27,7 +27,7 @@ export default async function PreviewFileButton({
   }
 
   return (
-    <Link href={data} target="_blank">
+    <Link href={data} target="_blank" rel="noopener noreferrer">
       {child}
     </Link>
   );
