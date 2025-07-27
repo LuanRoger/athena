@@ -35,6 +35,7 @@ export async function getGeneralFiles(
   tags?: number,
   titleTerm?: string,
   authorTerm?: string,
+  limit?: number,
 ) {
   const user = await getUser();
   if (!user) {
@@ -47,6 +48,7 @@ export async function getGeneralFiles(
     tags,
     titleTerm,
     authorTerm,
+    limit,
   );
   return {
     success: true,

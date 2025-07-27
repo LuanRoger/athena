@@ -1,5 +1,8 @@
 import { db } from "..";
-import { CreateFileMetadata } from "@/models/db-operations";
+import {
+  CreateFileMetadata,
+  FileMetadataOrderBy,
+} from "@/models/db-operations";
 import { NoEntityInsertedError } from "@/models/errors";
 import { filesMetadata } from "../schemas/files-metadata";
 import { filesMetadataToTags } from "../schemas/files-metadata-to-tags";
@@ -29,6 +32,8 @@ export async function getGeneralFiles(
   tag?: number,
   titleTerm?: string,
   authorTerm?: string,
+  limit?: number,
+  orderBy?: FileMetadataOrderBy,
 ) {
   const result = await db.query.filesMetadata.findMany({
     where: (filesMetadata, { eq, and, like, or }) => {
@@ -49,6 +54,19 @@ export async function getGeneralFiles(
       }
       return and(...andCondition, or(...searchConditions));
     },
+    limit: limit,
+    orderBy: orderBy
+      ? (filesMetadata, { desc }) => {
+          switch (orderBy) {
+            case "createdAt":
+              return desc(filesMetadata.createdAt);
+            case "favoritesCount":
+              return desc(filesMetadata.favoritesCount);
+            default:
+              return desc(filesMetadata.createdAt);
+          }
+        }
+      : undefined,
     with: {
       tags: {
         columns: {},

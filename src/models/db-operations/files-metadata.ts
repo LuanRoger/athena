@@ -5,3 +5,5 @@ export interface CreateFileMetadata {
   createdBy: string;
   tags?: number[];
 }
+
+export type FileMetadataOrderBy = "createdAt" | "favoritesCount";
