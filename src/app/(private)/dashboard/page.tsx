@@ -9,8 +9,8 @@ export default async function Page() {
       <section className="flex flex-col gap-4">
         <Banner />
       </section>
-      <section className="flex flex-col justify-center gap-10">
-        <h2 className="self-center text-2xl font-bold">Categorias</h2>
+      <section id="categories" className="flex flex-col gap-10">
+        <h2 className="text-center text-2xl font-bold"> Categorias</h2>
         <Categories />
       </section>
       <section className="flex flex-col justify-center gap-10">

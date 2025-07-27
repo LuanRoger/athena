@@ -12,7 +12,7 @@ export default function NavLinks() {
             <a>Início</a>
           </li>
           <li>
-            <a>Categorias</a>
+            <a href="#categories">Categorias</a>
           </li>
           <li>
             <a>Sobre</a>
