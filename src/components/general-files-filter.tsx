@@ -53,11 +53,7 @@ export default function GeneralFilesFilter({
   }
 
   return (
-    <form className="flex items-center gap-4">
-      <TagDropdownSelectorClient
-        selectedTagId={currentSelectedTagId}
-        onSelect={setSelectedTag}
-      />
+    <form className="flex flex-col gap-4 md:flex-row md:items-center">
       <fieldset className="fieldset flex-1">
         <label className="input w-full">
           <SearchIcon />
@@ -69,16 +65,23 @@ export default function GeneralFilesFilter({
           />
         </label>
       </fieldset>
-      <button className="btn btn-primary" onClick={updateSearchParams}>
-        Filtrar
-      </button>
-      <button
-        className="btn btn-secondary"
-        type="reset"
-        onClick={handleResetFilters}
-      >
-        Limpar filtros
-      </button>
+      <TagDropdownSelectorClient
+        selectedTagId={currentSelectedTagId}
+        onSelect={setSelectedTag}
+        className="w-full md:w-auto"
+      />
+      <div className="flex items-center gap-2 self-end">
+        <button className="btn btn-primary" onClick={updateSearchParams}>
+          Filtrar
+        </button>
+        <button
+          className="btn btn-secondary"
+          type="reset"
+          onClick={handleResetFilters}
+        >
+          Limpar filtros
+        </button>
+      </div>
     </form>
   );
 }
