@@ -2,12 +2,24 @@
 
 import { Search } from "lucide-react";
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { createQueryString } from "@/utils/query";
 
 export default function SearchBar() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(
+    searchParams.get("titleTerm") || "",
+  );
 
   function handleSearch() {
-    console.log("Busca executada!");
+    const params: Record<string, string | undefined | null> = {
+      titleTerm: searchTerm || undefined,
+      authorTerm: searchTerm || undefined,
+    };
+    const queryString = createQueryString(params);
+    router.replace(`/dashboard/all?${queryString}`);
   }
 
   return (
@@ -24,6 +36,13 @@ export default function SearchBar() {
           type="text"
           placeholder="Buscar por um documento..."
           className="w-full rounded-2xl bg-gray-100 py-1.5 pr-10 pl-4 text-black placeholder-gray-400 focus:outline-none"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSearch();
+            }
+          }}
         />
         <button
           onClick={handleSearch}
@@ -41,6 +60,13 @@ export default function SearchBar() {
                 type="text"
                 placeholder="Buscar por um documento..."
                 className="grow text-black placeholder-gray-400 focus:outline-none"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch();
+                  }
+                }}
               />
               <button
                 onClick={handleSearch}

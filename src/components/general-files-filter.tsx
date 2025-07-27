@@ -1,6 +1,5 @@
 "use client";
 
-import { SearchIcon } from "lucide-react";
 import TagDropdownSelectorClient from "./tag-dropdown-selector/client";
 import { useSearchParams, useRouter } from "next/navigation";
 import { createQueryString } from "@/utils/query";
@@ -18,14 +17,13 @@ export default function GeneralFilesFilter({
   const searchParams = useSearchParams();
 
   const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string>(
-    searchParams.get("titleTerm") || "",
-  );
+
   const currentSelectedTagId = useMemo(() => {
     const paramsTagId = searchParams.get("tag");
     const stateTagId = selectedTag?.id;
     return stateTagId ? stateTagId : paramsTagId ? parseInt(paramsTagId) : null;
   }, [searchParams, selectedTag]);
+
   const currentBasePath = useMemo(
     () => baseRoute ?? "/dashboard/all",
     [baseRoute],
@@ -33,11 +31,13 @@ export default function GeneralFilesFilter({
 
   function updateSearchParams() {
     const tagsToSearch = currentSelectedTagId?.toString();
+    const titleTerm = searchParams.get("titleTerm");
+    const authorTerm = searchParams.get("authorTerm");
 
     const params: Record<string, string | undefined | null> = {
       tag: tagsToSearch,
-      titleTerm: searchTerm || undefined,
-      authorTerm: searchTerm || undefined,
+      titleTerm: titleTerm || undefined,
+      authorTerm: authorTerm || undefined,
     };
 
     const queryString = createQueryString(params);
@@ -47,24 +47,12 @@ export default function GeneralFilesFilter({
 
   function handleResetFilters() {
     setSelectedTag(null);
-    setSearchTerm("");
 
     router.replace(currentBasePath);
   }
 
   return (
     <form className="flex flex-col gap-4 md:flex-row md:items-center">
-      <fieldset className="fieldset flex-1">
-        <label className="input w-full">
-          <SearchIcon />
-          <input
-            className="grow"
-            placeholder="Pesquisar por titulo ou autor"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </label>
-      </fieldset>
       <TagDropdownSelectorClient
         selectedTagId={currentSelectedTagId}
         onSelect={setSelectedTag}
