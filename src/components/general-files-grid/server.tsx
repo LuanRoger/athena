@@ -1,12 +1,14 @@
 import { getGeneralFiles } from "@/app/actions/files-metadata";
 import FilesGrid from "../files-grid";
 import { isFavoritedByUser } from "@/app/actions/favorites";
+import { FileMetadataOrderBy } from "@/models";
 
 interface GeneralFilesGridServerProps {
   tag?: number;
   titleTerm?: string;
   authorTerm?: string;
   limit?: number;
+  orderBy?: FileMetadataOrderBy;
   className?: string;
 }
 
@@ -15,6 +17,7 @@ export default async function GeneralFilesGridServer({
   titleTerm,
   authorTerm,
   limit,
+  orderBy,
   className,
 }: GeneralFilesGridServerProps) {
   const { success, data } = await getGeneralFiles(
@@ -22,6 +25,7 @@ export default async function GeneralFilesGridServer({
     titleTerm,
     authorTerm,
     limit,
+    orderBy,
   );
   if (!success && !data) {
     return <p>Error loading files.</p>;

@@ -16,7 +16,11 @@ export default async function Page() {
       <section className="flex flex-col justify-center gap-10">
         <h2 className="self-center text-2xl font-bold">Últimos adicionados</h2>
         <div className="flex flex-col gap-4">
-          <GeneralFilesGrid limit={4} className="justify-between" />
+          <GeneralFilesGrid
+            limit={4}
+            orderBy="createdAt"
+            className="justify-between"
+          />
           <Link href="/dashboard/all" className="self-end">
             <button className="btn btn-link">Ver todos</button>
           </Link>
