@@ -6,12 +6,16 @@ interface GeneralFilesGridProps {
   tag?: number;
   titleTerm?: string;
   authorTerm?: string;
+  limit?: number;
+  className?: string;
 }
 
 export default function GeneralFilesGrid({
   tag,
   titleTerm,
   authorTerm,
+  limit,
+  className,
 }: GeneralFilesGridProps) {
   return (
     <Suspense fallback={<FilesGridLoading />}>
@@ -19,6 +23,8 @@ export default function GeneralFilesGrid({
         tag={tag}
         titleTerm={titleTerm}
         authorTerm={authorTerm}
+        limit={limit}
+        className={className}
       />
     </Suspense>
   );

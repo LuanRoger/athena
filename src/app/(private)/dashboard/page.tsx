@@ -1,34 +1,27 @@
-import { getUser } from "@/app/actions/auth";
-import UserFavorites from "@/components/user-favorites-files";
-import UserFiles from "@/components/user-files";
-import Link from "next/link";
 import { Categories } from "@/components/categories/categories";
 import Banner from "@/components/banner/banner";
+import GeneralFilesGrid from "@/components/general-files-grid";
+import Link from "next/link";
 
 export default async function Page() {
-  const currentUser = await getUser();
-
-  const { name, email } = currentUser!;
-
   return (
     <main className="flex flex-col gap-8 py-4">
       <section className="flex flex-col gap-4">
         <Banner />
       </section>
-      <section className="flex flex-col gap-10">
-        <h2 className="text-center text-2xl font-bold"> Categorias</h2>
+      <section className="flex flex-col justify-center gap-10">
+        <h2 className="self-center text-2xl font-bold">Categorias</h2>
         <Categories />
       </section>
-      <div>
-        <h1>{name}</h1>
-        <p>{email}</p>
-        <Link href="/dashboard/all">
-          <button className="btn btn-link">Ver de todos</button>
-        </Link>
-        <UserFiles />
-        <h2 className="text-lg font-semibold">Favoritos</h2>
-        <UserFavorites />
-      </div>
+      <section className="flex flex-col justify-center gap-10">
+        <h2 className="self-center text-2xl font-bold">Últimos adicionados</h2>
+        <div className="flex flex-col gap-4">
+          <GeneralFilesGrid limit={4} className="justify-between" />
+          <Link href="/dashboard/all" className="self-end">
+            <button className="btn btn-link">Ver todos</button>
+          </Link>
+        </div>
+      </section>
     </main>
   );
 }

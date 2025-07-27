@@ -18,12 +18,12 @@ export default function FileGridItem({
   const sendDate = new Date(file.createdAt).toLocaleDateString();
 
   return (
-    <div className="card bg-base-100 shadow-xl">
+    <div className="card bg-base-100 max-h-80 w-52 shadow-xl">
       <div className="card-body flex flex-col gap-2">
         <FileFavoriteButton fileId={file.id} isFavorited={isFavorited} />
         <TagsList tags={tags} />
-        <h3 className="card-title">{file.title}</h3>
-        <p>{file.author}</p>
+        <h3 className="card-title line-clamp-2 text-ellipsis">{file.title}</h3>
+        <p className="line-clamp-2 text-ellipsis">{file.author}</p>
         <div className="flex flex-row gap-2">
           <span>
             <p>Enviado por:</p>

@@ -6,14 +6,23 @@ interface GeneralFilesGridServerProps {
   tag?: number;
   titleTerm?: string;
   authorTerm?: string;
+  limit?: number;
+  className?: string;
 }
 
 export default async function GeneralFilesGridServer({
   tag,
   titleTerm,
   authorTerm,
+  limit,
+  className,
 }: GeneralFilesGridServerProps) {
-  const { success, data } = await getGeneralFiles(tag, titleTerm, authorTerm);
+  const { success, data } = await getGeneralFiles(
+    tag,
+    titleTerm,
+    authorTerm,
+    limit,
+  );
   if (!success && !data) {
     return <p>Error loading files.</p>;
   }
@@ -34,5 +43,5 @@ export default async function GeneralFilesGridServer({
     };
   });
 
-  return <FilesGrid files={await Promise.all(files)} />;
+  return <FilesGrid files={await Promise.all(files)} className={className} />;
 }
