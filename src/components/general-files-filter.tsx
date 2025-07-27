@@ -47,7 +47,6 @@ export default function GeneralFilesFilter({
 
   function handleResetFilters() {
     setSelectedTag(null);
-
     router.replace(currentBasePath);
   }
 
@@ -59,7 +58,11 @@ export default function GeneralFilesFilter({
         className="w-full md:w-auto"
       />
       <div className="flex items-center gap-2 self-end">
-        <button className="btn btn-primary" onClick={updateSearchParams}>
+        <button
+          className="btn btn-primary"
+          type="button"
+          onClick={updateSearchParams}
+        >
           Filtrar
         </button>
         <button

@@ -25,7 +25,7 @@ export default function FileGridItem({
       <div className="card-body flex flex-col gap-2">
         <div className="flex flex-row items-center justify-between">
           <FileFavoriteButton fileId={id} isFavorited={isFavorited} />
-          <FileGridItemMenu fileId={id} />
+          <FileGridItemMenu fileId={id} createdByUserId={createdBy.id} />
         </div>
         <TagsList tags={tags} />
         <h3 className="card-title line-clamp-2 text-ellipsis">{title}</h3>
