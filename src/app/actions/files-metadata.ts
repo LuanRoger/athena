@@ -8,7 +8,10 @@ import {
 } from "@/utils/error";
 import { getUser } from "./auth";
 import { UnauthorizedActionResult } from "@/models/common-action-results";
-import { CreateFileMetadata } from "@/models/db-operations";
+import {
+  CreateFileMetadata,
+  FileMetadataOrderBy,
+} from "@/models/db-operations";
 import * as DatabaseOperations from "@/db/operations";
 import { ActionResult, EmptyResult } from "@/models";
 import { revalidatePath } from "next/cache";
@@ -35,6 +38,8 @@ export async function getGeneralFiles(
   tags?: number,
   titleTerm?: string,
   authorTerm?: string,
+  limit?: number,
+  orderBy?: FileMetadataOrderBy,
 ) {
   const user = await getUser();
   if (!user) {
@@ -43,10 +48,12 @@ export async function getGeneralFiles(
 
   const dashboardFiles = await DatabaseOperations.getGeneralFiles(
     user.id,
-    true,
+    false,
     tags,
     titleTerm,
     authorTerm,
+    limit,
+    orderBy,
   );
   return {
     success: true,

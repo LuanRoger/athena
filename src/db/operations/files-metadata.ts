@@ -1,5 +1,8 @@
 import { db } from "..";
-import { CreateFileMetadata } from "@/models/db-operations";
+import {
+  CreateFileMetadata,
+  FileMetadataOrderBy,
+} from "@/models/db-operations";
 import { NoEntityInsertedError } from "@/models/errors";
 import { filesMetadata } from "../schemas/files-metadata";
 import { filesMetadataToTags } from "../schemas/files-metadata-to-tags";
@@ -29,15 +32,29 @@ export async function getGeneralFiles(
   tag?: number,
   titleTerm?: string,
   authorTerm?: string,
+  limit?: number,
+  orderBy?: FileMetadataOrderBy,
 ) {
+  const fileMetadataToTags =
+    tag !== undefined
+      ? await db.query.filesMetadataToTags.findMany({
+          where: (filesMetadataToTags, { eq }) =>
+            eq(filesMetadataToTags.tagId, tag),
+          columns: {
+            fileMetadataId: true,
+          },
+        })
+      : [];
+  const fileIds = fileMetadataToTags.map((item) => item.fileMetadataId);
+
   const result = await db.query.filesMetadata.findMany({
-    where: (filesMetadata, { eq, and, like, or }) => {
+    where: (filesMetadata, { eq, inArray, and, like, or }) => {
       const andCondition = [];
       if (hideUserFiles) {
         andCondition.push(eq(filesMetadata.createdBy, userId));
       }
-      if (tag) {
-        andCondition.push(eq(filesMetadata.id, tag));
+      if (fileIds.length > 0) {
+        andCondition.push(inArray(filesMetadata.id, fileIds));
       }
 
       const searchConditions = [];
@@ -49,6 +66,19 @@ export async function getGeneralFiles(
       }
       return and(...andCondition, or(...searchConditions));
     },
+    limit: limit,
+    orderBy: orderBy
+      ? (filesMetadata, { desc }) => {
+          switch (orderBy) {
+            case "createdAt":
+              return desc(filesMetadata.createdAt);
+            case "favoritesCount":
+              return desc(filesMetadata.favoritesCount);
+            default:
+              return desc(filesMetadata.createdAt);
+          }
+        }
+      : undefined,
     with: {
       tags: {
         columns: {},

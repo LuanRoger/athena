@@ -19,6 +19,7 @@ export default async function Page({
         tag={tag}
         titleTerm={titleTerm}
         authorTerm={authorTerm}
+        orderBy="createdAt"
       />
     </main>
   );

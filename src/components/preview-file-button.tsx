@@ -5,27 +5,30 @@ import Link from "next/link";
 interface PreviewFileButtonProps {
   id: number;
   className?: string;
+  children?: React.ReactNode;
 }
 
 export default async function PreviewFileButton({
   id,
   className,
+  children,
 }: PreviewFileButtonProps) {
   const { success, data } = await getFileMetadataPreviewUrl(id);
   const disabled = !success || !data;
+
+  const child = children ? (
+    children
+  ) : (
+    <button className={cn("btn btn-primary", className)}>Visualizar</button>
+  );
+
   if (disabled) {
-    return (
-      <button className="btn btn-link" type="button" disabled>
-        Visualizar
-      </button>
-    );
+    return child;
   }
 
   return (
-    <button className={cn("btn btn-primary", className)} type="button">
-      <Link href={data} target="_blank">
-        Visualizar
-      </Link>
-    </button>
+    <Link href={data} target="_blank">
+      {child}
+    </Link>
   );
 }

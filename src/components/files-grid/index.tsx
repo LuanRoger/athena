@@ -1,5 +1,6 @@
 import { FileMetadata, Tag, User } from "@/models";
 import FileGridItem from "./item";
+import { cn } from "@/utils/tailwind";
 
 interface FilesGridProps {
   files: {
@@ -8,11 +9,12 @@ interface FilesGridProps {
     createdBy: User;
     isFavorited?: boolean;
   }[];
+  className?: string;
 }
 
-export default function FilesGrid({ files }: FilesGridProps) {
+export default function FilesGrid({ files, className }: FilesGridProps) {
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className={cn("flex flex-wrap gap-4", className)}>
       {files.map((file) => (
         <FileGridItem
           key={`files-grid-item-${file.file.id}`}

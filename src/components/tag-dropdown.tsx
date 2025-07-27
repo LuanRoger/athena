@@ -16,10 +16,10 @@ export default function TagDropdown({
 }: TagDropdownProps) {
   return (
     <details className={cn("dropdown", className)}>
-      <summary role="button" className="btn m-1">
+      <summary role="button" className="btn m-1 w-full md:w-auto">
         <div>{selectedTag ? selectedTag.name : "Selecionar tags"}</div>
       </summary>
-      <ul className="menu dropdown-content bg-base-100 text-base-content rounded-box z-10 w-52 p-2 shadow">
+      <ul className="menu dropdown-content bg-base-100 text-base-content rounded-box z-10 w-full p-2 shadow md:w-52">
         {tags.map((tag) => (
           <li key={`tag-dropdown-item-${tag.id}`}>
             <a onClick={() => onSelect?.(tag)}>{tag.name}</a>
