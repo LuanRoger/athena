@@ -23,7 +23,6 @@ export default async function Page() {
       <div>
         <h1>{name}</h1>
         <p>{email}</p>
-        <NewFileForm />
         <Link href="/dashboard/all">
           <button className="btn btn-link">Ver de todos</button>
         </Link>

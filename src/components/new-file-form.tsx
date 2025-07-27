@@ -1,17 +1,22 @@
 "use client";
 
-import SubmitButton from "./submit-button";
+import SubmitButton from "./upload-form/submit-button";
 import { useMemo, useOptimistic, useState, useTransition } from "react";
 import { showToastByActionResult } from "@/utils/toast";
 import { useDropzone } from "react-dropzone";
 import { FileIcon } from "lucide-react";
 import { MAX_FILE_SIZE } from "@/constants";
 import { createFileMetadataFromForm } from "@/app/actions/files-metadata";
-import TagsInput from "./tags-input";
+import TagsInput from "./upload-form/tags-input";
 import { createIfNotExist } from "@/app/actions/tags";
 import { Tag } from "@/models";
+import CancelButton from "./upload-form/cancel-button";
 
-export default function NewFileForm() {
+type NewFileFormProps = {
+  onClose?: () => void;
+};
+
+export default function NewFileForm({ onClose }: NewFileFormProps) {
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     accept: {
       "text/*": [".txt", ".md", ".csv", ".pdf"],
@@ -39,6 +44,10 @@ export default function NewFileForm() {
     const result = await createFileMetadataFromForm(formData, tagsId);
     showToastByActionResult(result, true);
     setTags([]);
+
+    if (onClose) {
+      onClose();
+    }
   }
 
   async function handleAddTag(tag: string) {
@@ -58,37 +67,69 @@ export default function NewFileForm() {
   }
 
   return (
-    <form className="flex flex-col gap-2" action={uploadActions}>
-      <fieldset className="fieldset">
-        <div
-          {...getRootProps()}
-          className="card card-lg card-dash bg-primary text-primary-content"
-        >
-          <div className="card-body">
+    <div className="rounded-lg p-8">
+      <h2 className="mb-6 text-2xl font-bold text-gray-800">Novo upload</h2>
+      <form className="flex flex-col gap-4" action={uploadActions}>
+        <div className="flex flex-col gap-2">
+          <label className="text-gray-700">Nome do arquivo</label>
+          <div
+            {...getRootProps()}
+            className="flex h-24 cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 text-center transition-colors hover:border-blue-400"
+          >
             <input name="file" {...getInputProps()} />
-            <span className="inline-flex items-center gap-2">
-              <FileIcon />
-              {currentFile ? (
-                <span className="text-sm">{currentFile.name}</span>
-              ) : (
-                <span className="text-sm">Arraste e solte um arquivo aqui</span>
-              )}
-            </span>
+            {currentFile ? (
+              <span className="flex items-center gap-2 text-sm text-gray-600">
+                <FileIcon size={20} />
+                {currentFile.name}
+              </span>
+            ) : (
+              <span className="text-sm text-gray-500">
+                Arraste um arquivo ou clique para enviar
+              </span>
+            )}
           </div>
         </div>
 
-        <label className="fieldset-label">Titulo</label>
-        <input type="text" name="title" className="input" />
+        <div className="flex flex-col gap-2">
+          <label htmlFor="title" className="text-gray-700">
+            Título
+          </label>
+          <input
+            id="title"
+            type="text"
+            name="title"
+            className="h-12 rounded-lg border border-gray-300 bg-white px-4 py-2 text-black focus:border-blue-500 focus:outline-none"
+          />
+        </div>
 
-        <label className="fieldset-label">Autor</label>
-        <input type="text" name="author" className="input" />
+        <div className="flex flex-col gap-2">
+          <label htmlFor="author" className="text-gray-700">
+            Autor
+          </label>
+          <input
+            id="author"
+            type="text"
+            name="author"
+            className="h-12 rounded-lg border border-gray-300 bg-white px-4 py-2 text-black focus:border-blue-500 focus:outline-none"
+          />
+        </div>
 
-        <TagsInput
-          tags={optimisticTags}
-          onAddTag={(tag) => startAction(() => handleAddTag(tag))}
-        />
-      </fieldset>
-      <SubmitButton>Enviar</SubmitButton>
-    </form>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="tags" className="text-gray-700">
+            Tags
+          </label>
+          <TagsInput
+            id="tags"
+            tags={optimisticTags}
+            onAddTag={(tag) => startAction(() => handleAddTag(tag))}
+          />
+        </div>
+
+        <div className="mt-6 flex justify-end gap-4">
+          <CancelButton onClick={onClose}>Cancelar</CancelButton>
+          <SubmitButton>Enviar</SubmitButton>
+        </div>
+      </form>
+    </div>
   );
 }
