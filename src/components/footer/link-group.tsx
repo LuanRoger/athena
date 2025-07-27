@@ -1,12 +1,20 @@
 export default function LinkGroup() {
   return (
-    <div className="footer lg:footer-horizontal">
+    <div className="footer footer-horizontal my-5 lg:my-0">
       <nav>
         <h6 className="footer-title">Institucional</h6>
-        <a className="link link-hover">Sobre nós</a>
-        <a className="link link-hover">Termos de uso</a>
-        <a className="link link-hover">Portal da privacidade</a>
-        <a className="link link-hover">Trabalhe conosco</a>
+        <a className="link link-hover" href="#">
+          Sobre nós
+        </a>
+        <a className="link link-hover" href="#">
+          Termos de uso
+        </a>
+        <a className="link link-hover" href="#">
+          Portal da privacidade
+        </a>
+        <a className="link link-hover" href="#">
+          Trabalhe conosco
+        </a>
       </nav>
 
       <nav>
@@ -21,7 +29,10 @@ export default function LinkGroup() {
 
       <nav>
         <h6 className="footer-title">Responsáveis</h6>
-        <a className="link link-hover" href="https://github.com/LuanRoger">
+        <a
+          className="link link-hover"
+          href="https://github.com/alexsandromartin"
+        >
           Alexsandro Martins
         </a>
         <a className="link link-hover" href="https://github.com/jonaferreir4">
@@ -33,7 +44,7 @@ export default function LinkGroup() {
         <a className="link link-hover" href="https://github.com/csvitor-dev">
           Vitor Costa
         </a>
-        <a className="link link-hover" href="https://github.com/LuanRoger">
+        <a className="link link-hover" href="https://github.com/yvenscivel">
           Yvens Almeida
         </a>
       </nav>
