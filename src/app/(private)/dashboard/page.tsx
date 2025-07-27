@@ -1,5 +1,4 @@
 import { getUser } from "@/app/actions/auth";
-import NewFileForm from "@/components/new-file-form";
 import UserFavorites from "@/components/user-favorites-files";
 import UserFiles from "@/components/user-files";
 import Link from "next/link";
