@@ -17,7 +17,7 @@ export default async function Page() {
         <h2 className="self-center text-2xl font-bold">Últimos adicionados</h2>
         <div className="flex flex-col gap-4">
           <GeneralFilesGrid
-            limit={4}
+            limit={5}
             orderBy="createdAt"
             className="justify-between"
           />

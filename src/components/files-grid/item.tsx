@@ -21,7 +21,7 @@ export default function FileGridItem({
   const sendDate = new Date(createdAt).toLocaleDateString();
 
   return (
-    <div className="card bg-base-100 max-h-80 w-full shadow-xl md:w-52">
+    <div className="card bg-base-100 h-90 w-full shadow-xl md:w-63">
       <div className="card-body flex flex-col gap-2">
         <div className="flex flex-row items-center justify-between">
           <FileFavoriteButton fileId={id} isFavorited={isFavorited} />
