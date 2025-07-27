@@ -15,7 +15,7 @@ export default function SignOutButton() {
 
   return (
     <button
-      className="btn btn-primary"
+      className="btn btn-ghost text-start"
       disabled={isLoading}
       onClick={signOutHandler}
     >
