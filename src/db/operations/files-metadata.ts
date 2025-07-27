@@ -35,14 +35,26 @@ export async function getGeneralFiles(
   limit?: number,
   orderBy?: FileMetadataOrderBy,
 ) {
+  const fileMetadataToTags =
+    tag !== undefined
+      ? await db.query.filesMetadataToTags.findMany({
+          where: (filesMetadataToTags, { eq }) =>
+            eq(filesMetadataToTags.tagId, tag),
+          columns: {
+            fileMetadataId: true,
+          },
+        })
+      : [];
+  const fileIds = fileMetadataToTags.map((item) => item.fileMetadataId);
+
   const result = await db.query.filesMetadata.findMany({
-    where: (filesMetadata, { eq, and, like, or }) => {
+    where: (filesMetadata, { eq, inArray, and, like, or }) => {
       const andCondition = [];
       if (hideUserFiles) {
         andCondition.push(eq(filesMetadata.createdBy, userId));
       }
-      if (tag) {
-        andCondition.push(eq(filesMetadata.id, tag));
+      if (fileIds.length > 0) {
+        andCondition.push(inArray(filesMetadata.id, fileIds));
       }
 
       const searchConditions = [];

@@ -32,10 +32,7 @@ export default function GeneralFilesFilter({
   );
 
   function updateSearchParams() {
-    const paramsTagId = searchParams.get("tag");
-    const stateTagId = selectedTag?.id;
-
-    const tagsToSearch = stateTagId ? stateTagId.toString() : paramsTagId;
+    const tagsToSearch = currentSelectedTagId?.toString();
 
     const params: Record<string, string | undefined | null> = {
       tag: tagsToSearch,
