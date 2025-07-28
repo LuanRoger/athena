@@ -27,8 +27,8 @@ export default async function GeneralFilesGridServer({
     limit,
     orderBy,
   );
-  if (!success && !data) {
-    return <p>Error loading files.</p>;
+  if ((!success && !data) || data?.length === 0) {
+    return <p>Nenhum upload encontrado.</p>;
   }
 
   const files = data!.map(async (file) => {
