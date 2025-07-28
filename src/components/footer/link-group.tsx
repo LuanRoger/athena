@@ -3,7 +3,7 @@ export default function LinkGroup() {
     <div className="footer footer-horizontal my-5 flex flex-wrap sm:gap-40 lg:my-0">
       <nav>
         <h6 className="footer-title">Institucional</h6>
-        <a className="link link-hover" href="#">
+        <a className="link link-hover" href="/about">
           Sobre nós
         </a>
         <a className="link link-hover" href="#">
