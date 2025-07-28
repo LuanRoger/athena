@@ -4,8 +4,13 @@ import { Search } from "lucide-react";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createQueryString } from "@/utils/query";
+import { cn } from "@/utils/tailwind";
 
-export default function SearchBar() {
+interface SearchBarProps {
+  isLoggedIn?: boolean;
+}
+
+export default function SearchBar({ isLoggedIn }: SearchBarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -26,16 +31,27 @@ export default function SearchBar() {
     <>
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="btn btn-ghost lg:hidden"
+        className={cn(
+          "btn btn-ghost lg:hidden",
+          isLoggedIn ? "text-slate-400" : "text-primary",
+        )}
       >
-        <Search size={24} />
+        <Search
+          size={24}
+          className={isLoggedIn ? "text-slate-400" : "text-primary"}
+        />
       </button>
 
       <div className="relative hidden w-96 lg:block">
         <input
           type="text"
           placeholder="Buscar por um documento..."
-          className="w-full rounded-2xl bg-gray-100 py-1.5 pr-10 pl-4 text-black placeholder-gray-400 focus:outline-none"
+          className={cn(
+            "w-full rounded-2xl bg-gray-100 py-1.5 pr-10 pl-4 text-black focus:outline-none",
+            isLoggedIn
+              ? "border-none placeholder-slate-400"
+              : "border-primary placeholder-primary border-2",
+          )}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyDown={(e) => {
@@ -48,7 +64,10 @@ export default function SearchBar() {
           onClick={handleSearch}
           className="absolute top-1/2 right-5 -translate-y-1/2 cursor-pointer text-gray-400"
         >
-          <Search size={24} />
+          <Search
+            size={24}
+            className={isLoggedIn ? "text-slate-400" : "text-primary"}
+          />
         </button>
       </div>
 
@@ -59,7 +78,12 @@ export default function SearchBar() {
               <input
                 type="text"
                 placeholder="Buscar por um documento..."
-                className="grow text-black placeholder-gray-400 focus:outline-none"
+                className={cn(
+                  "grow text-black focus:outline-none",
+                  isLoggedIn
+                    ? "placeholder-slate-400"
+                    : "placeholder-primary border-2",
+                )}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={(e) => {
@@ -72,7 +96,10 @@ export default function SearchBar() {
                 onClick={handleSearch}
                 className="cursor-pointer text-gray-400"
               >
-                <Search size={24} />
+                <Search
+                  size={24}
+                  className={isLoggedIn ? "text-slate-400" : "text-primary"}
+                />
               </button>
             </label>
           </div>
