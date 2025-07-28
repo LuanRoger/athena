@@ -3,7 +3,7 @@ import UserFiles from "@/components/user-files";
 
 export default async function Page() {
   return (
-    <main className="flex flex-col gap-y-36 p-4 lg:h-dvh">
+    <main className="flex min-h-screen flex-col gap-y-36 p-4">
       <div>
         <h2 className="text-2xl font-bold">Uploads</h2>
         <UserFiles />

@@ -18,13 +18,13 @@ export default function MenuButton({ isLoggedIn }: MenuButtonProps) {
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 text-black shadow"
       >
         <li>
-          <a>Início</a>
+          <a href="/">Início</a>
         </li>
         <li>
           <a>Categorias</a>
         </li>
         <li>
-          <a>Sobre</a>
+          <a href="/about">Sobre</a>
         </li>
       </ul>
     </div>

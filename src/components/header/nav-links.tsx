@@ -31,7 +31,7 @@ export default function NavLinks({ isLoggedIn }: NavLinksProps) {
             <a href="#categories">Categorias</a>
           </li>
           <li>
-            <a>Sobre</a>
+            <a href="/about">Sobre</a>
           </li>
         </ul>
       </div>
