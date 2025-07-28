@@ -1,10 +1,17 @@
 import { Menu } from "lucide-react";
 
-export default function MenuButton() {
+interface MenuButtonProps {
+  isLoggedIn?: boolean;
+}
+
+export default function MenuButton({ isLoggedIn }: MenuButtonProps) {
   return (
     <div className="dropdown">
       <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-        <Menu size={28} />
+        <Menu
+          size={28}
+          className={isLoggedIn ? "text-slate-400" : "text-primary"}
+        />
       </div>
       <ul
         tabIndex={0}
