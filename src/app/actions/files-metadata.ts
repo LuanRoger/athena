@@ -42,13 +42,10 @@ export async function getGeneralFiles(
   orderBy?: FileMetadataOrderBy,
 ) {
   const user = await getUser();
-  if (!user) {
-    return UnauthorizedActionResult;
-  }
 
   const dashboardFiles = await DatabaseOperations.getGeneralFiles(
-    user.id,
-    false,
+    user?.id,
+    true,
     tags,
     titleTerm,
     authorTerm,

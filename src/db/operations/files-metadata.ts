@@ -27,7 +27,7 @@ export async function getUserFiles(userId: string) {
 }
 
 export async function getGeneralFiles(
-  userId: string,
+  userId?: string,
   hideUserFiles: boolean = true,
   tag?: number,
   titleTerm?: string,
@@ -50,7 +50,7 @@ export async function getGeneralFiles(
   const result = await db.query.filesMetadata.findMany({
     where: (filesMetadata, { eq, inArray, and, like, or }) => {
       const andCondition = [];
-      if (hideUserFiles) {
+      if (hideUserFiles && userId) {
         andCondition.push(eq(filesMetadata.createdBy, userId));
       }
       if (fileIds.length > 0) {

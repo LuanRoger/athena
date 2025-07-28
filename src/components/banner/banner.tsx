@@ -14,7 +14,7 @@ export default function Banner() {
           Encontre documentos, artigos, livros e muito mais em um só lugar.
         </p>
         <Link
-          href="/about"
+          href="/dashboard"
           className="link link-secondary text-xl font-semibold text-[#0a0047]"
         >
           <div className="flex items-center gap-5 text-sm lg:text-xl">
