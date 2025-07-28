@@ -1,7 +1,6 @@
 import { getSession } from "@/app/actions/auth";
 import SignOutButton from "../sign-out-button";
 import Link from "next/link";
-import { createQueryString } from "@/utils/query";
 
 export default async function AvatarDropdown() {
   const currentUser = await getSession();
@@ -9,10 +8,6 @@ export default async function AvatarDropdown() {
   if (!currentUser) {
     return null;
   }
-
-  const myContributionsQueryString = createQueryString({
-    authorId: currentUser.user.id.toString(),
-  });
 
   return (
     <div className="dropdown dropdown-end">
@@ -25,6 +20,8 @@ export default async function AvatarDropdown() {
           <img
             alt="Avatar"
             src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+            width={40}
+            height={40}
           />
         </div>
       </div>
@@ -35,7 +32,7 @@ export default async function AvatarDropdown() {
         <li className="text-center">
           <Link
             className="block w-full py-3 text-center font-semibold"
-            href={`/dashboard/all?${myContributionsQueryString}`}
+            href="/me/profile"
           >
             Minhas Contribuições
           </Link>

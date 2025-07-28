@@ -3,10 +3,8 @@ import FilesList from "../files-list";
 
 export default async function UserFilesServer() {
   const { success, data } = await getUserFiles();
-  if (!success || !data) {
-    return (
-      <div className="text-error-content text-center">Ocorreu um erro.</div>
-    );
+  if (!success || !data || data.length === 0) {
+    return <p className="text-info-content">Nenhum arquivo encontrado</p>;
   }
 
   const files = data!.map((file) => ({
