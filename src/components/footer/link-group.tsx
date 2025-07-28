@@ -1,6 +1,6 @@
 export default function LinkGroup() {
   return (
-    <div className="footer footer-horizontal my-5 lg:my-0">
+    <div className="footer footer-horizontal my-5 flex flex-wrap sm:gap-40 lg:my-0">
       <nav>
         <h6 className="footer-title">Institucional</h6>
         <a className="link link-hover" href="#">
