@@ -45,7 +45,7 @@ export async function getGeneralFiles(
 
   const dashboardFiles = await DatabaseOperations.getGeneralFiles(
     user?.id,
-    true,
+    false,
     tags,
     titleTerm,
     authorTerm,
